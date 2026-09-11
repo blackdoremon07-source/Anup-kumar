@@ -340,12 +340,12 @@ object MockDataProvider {
         Tool(
             id = "tool-job-photo-signature",
             title = "Government Job Photo & Signature Maker",
-            description = "Auto-resize, crop & format photos with date/name stamps as per SSC, UPSC & Railway specs.",
+            description = "Auto-resize, crop & format photos with official SSC, UPSC, Railway & Banking specs.",
             route = "tools/job-photo-signature",
             iconName = "Badge",
             category = "Photo & Signature",
-            badgeText = "Most Popular",
-            partNotice = "Engine arriving in Part 3"
+            badgeText = "Verified Specs",
+            partNotice = null
         ),
         Tool(
             id = "tool-photo-editor",
@@ -355,16 +355,17 @@ object MockDataProvider {
             iconName = "Image",
             category = "Image Utility",
             badgeText = "Essential",
-            partNotice = "Engine arriving in Part 2"
+            partNotice = null
         ),
         Tool(
             id = "tool-pdf-tools",
-            title = "PDF Tools",
-            description = "Merge documents, split pages, extract certificates, and manage job application PDFs.",
+            title = "PDF Tools & Studio",
+            description = "Merge documents, split pages, reorder, convert to images, and compress application PDFs.",
             route = "tools/pdf",
             iconName = "PictureAsPdf",
             category = "Document",
-            partNotice = "Engine arriving in Part 4"
+            badgeText = "7 Tools in 1",
+            partNotice = null
         ),
         Tool(
             id = "tool-image-to-pdf",
@@ -373,43 +374,48 @@ object MockDataProvider {
             route = "tools/pdf",
             iconName = "Collections",
             category = "Document",
-            partNotice = "Engine arriving in Part 4"
+            badgeText = "Fast",
+            partNotice = null
         ),
         Tool(
             id = "tool-pdf-compressor",
             title = "PDF Compressor",
-            description = "Compress heavy PDF marksheets to under 200KB / 500KB without losing readability.",
+            description = "Compress heavy PDF marksheets to under 200KB / 300KB without losing readability.",
             route = "tools/pdf",
             iconName = "Compress",
             category = "Document",
-            partNotice = "Engine arriving in Part 4"
+            badgeText = "Lossless",
+            partNotice = null
         ),
         Tool(
             id = "tool-qr-code",
             title = "QR Code Generator",
-            description = "Generate instant QR codes for application links, roll numbers, and contact information.",
+            description = "Generate instant QR codes for URLs, WiFi, contact cards, SMS, and export as SVG/PNG.",
             route = "tools/qr",
             iconName = "QrCode",
             category = "Utility",
-            partNotice = "Engine arriving in Part 4"
+            badgeText = "SVG & PNG",
+            partNotice = null
         ),
         Tool(
             id = "tool-calculator",
             title = "Calculator",
-            description = "Exact age eligibility calculator as on cutoff date, exam percentage, and cutoff estimator.",
+            description = "Full featured calculator with basic and scientific functions, history recall, and instant previews.",
             route = "tools/calculator",
             iconName = "Calculate",
-            category = "Math & Eligibility",
-            partNotice = "Engine arriving in Part 4"
+            category = "Math & Calculations",
+            badgeText = "Scientific",
+            partNotice = null
         ),
         Tool(
             id = "tool-unit-converter",
             title = "Unit Converter",
-            description = "Convert image resolutions (pixels to cm/inches at 200/300 DPI), file sizes (KB to MB).",
+            description = "Convert 10 measurement categories (Length, Weight, Temp, Area, Volume, Time, Speed, Storage, etc.).",
             route = "tools/unit-converter",
             iconName = "SwapHoriz",
             category = "Conversion",
-            partNotice = "Engine arriving in Part 4"
+            badgeText = "10 Categories",
+            partNotice = null
         )
     )
 }

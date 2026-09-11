@@ -4,6 +4,8 @@ import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.defaultMinSize
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -83,3 +85,62 @@ fun DgOutlinedButton(
         content = content
     )
 }
+
+@Composable
+fun DgPrimaryButton(
+    text: String,
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier,
+    enabled: Boolean = true,
+    leadingIcon: androidx.compose.ui.graphics.vector.ImageVector? = null
+) {
+    DgPrimaryButton(
+        onClick = onClick,
+        modifier = modifier,
+        enabled = enabled
+    ) {
+        if (leadingIcon != null) {
+            androidx.compose.material3.Icon(
+                imageVector = leadingIcon,
+                contentDescription = null,
+                modifier = androidx.compose.ui.Modifier.size(18.dp)
+            )
+            androidx.compose.foundation.layout.Spacer(modifier = androidx.compose.ui.Modifier.width(8.dp))
+        }
+        Text(
+            text = text,
+            fontWeight = FontWeight.Bold,
+            fontSize = 14.sp
+        )
+    }
+}
+
+@Composable
+fun DgOutlinedButton(
+    text: String,
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier,
+    enabled: Boolean = true,
+    leadingIcon: androidx.compose.ui.graphics.vector.ImageVector? = null
+) {
+    DgOutlinedButton(
+        onClick = onClick,
+        modifier = modifier,
+        enabled = enabled
+    ) {
+        if (leadingIcon != null) {
+            androidx.compose.material3.Icon(
+                imageVector = leadingIcon,
+                contentDescription = null,
+                modifier = androidx.compose.ui.Modifier.size(18.dp)
+            )
+            androidx.compose.foundation.layout.Spacer(modifier = androidx.compose.ui.Modifier.width(8.dp))
+        }
+        Text(
+            text = text,
+            fontWeight = FontWeight.Bold,
+            fontSize = 14.sp
+        )
+    }
+}
+

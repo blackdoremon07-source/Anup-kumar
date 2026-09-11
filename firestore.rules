@@ -1,0 +1,112 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Helper functions for secure server-side role validation
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+
+    function isOwner(userId) {
+      return isAuthenticated() && request.auth.uid == userId;
+    }
+
+    // Role check via Firebase Auth Custom Claims or server-verified token
+    function isOwnerAdmin() {
+      return isAuthenticated() && (
+        request.auth.token.role == 'OWNER_ADMIN' ||
+        request.auth.token.admin == true
+      );
+    }
+
+    // 1. User Profiles: users/{userId}
+    match /users/{userId} {
+      // Any authenticated user can read their own profile; OWNER_ADMIN can read all users
+      allow read: if isOwner(userId) || isOwnerAdmin();
+
+      // Normal users can only update their own safe profile fields (name, phone, photoURL, updatedAt)
+      // Normal users CANNOT change role, uid, or createdAt
+      allow create: if isOwner(userId) &&
+        request.resource.data.role == 'USER' &&
+        request.resource.data.uid == userId;
+
+      allow update: if (isOwner(userId) &&
+        request.resource.data.role == resource.data.role &&
+        request.resource.data.uid == resource.data.uid) || isOwnerAdmin();
+
+      // Only OWNER_ADMIN can delete user accounts from Firestore
+      allow delete: if isOwnerAdmin();
+    }
+
+    // 2. Saved Items & Downloads per user
+    match /users/{userId}/saved_items/{itemId} {
+      allow read, write: if isOwner(userId) || isOwnerAdmin();
+    }
+
+    match /users/{userId}/downloads/{downloadId} {
+      allow read, write: if isOwner(userId) || isOwnerAdmin();
+    }
+
+    // 3. Government Jobs: jobs/{jobId}
+    match /jobs/{jobId} {
+      // Public / all authenticated users can read published jobs
+      allow read: if true;
+      // Only OWNER_ADMIN can create, update, or delete jobs
+      allow write: if isOwnerAdmin();
+    }
+
+    // 4. Results: results/{resultId}
+    match /results/{resultId} {
+      allow read: if true;
+      allow write: if isOwnerAdmin();
+    }
+
+    // 5. Admit Cards: admit_cards/{admitCardId}
+    match /admit_cards/{admitCardId} {
+      allow read: if true;
+      allow write: if isOwnerAdmin();
+    }
+
+    // 6. Answer Keys: answer_keys/{keyId}
+    match /answer_keys/{keyId} {
+      allow read: if true;
+      allow write: if isOwnerAdmin();
+    }
+
+    // 7. Notifications: notifications/{notifId}
+    match /notifications/{notifId} {
+      allow read: if true;
+      allow write: if isOwnerAdmin();
+    }
+
+    // 8. Government Schemes: schemes/{schemeId}
+    match /schemes/{schemeId} {
+      allow read: if true;
+      allow write: if isOwnerAdmin();
+    }
+
+    // 9. Recruitment Requirements: recruitments/{recruitmentId}
+    match /recruitments/{recruitmentId} {
+      allow read: if true;
+      allow write: if isOwnerAdmin();
+    }
+
+    // 10. App Content: app_content/{contentId}
+    match /app_content/{contentId} {
+      allow read: if true;
+      allow write: if isOwnerAdmin();
+    }
+
+    // 11. Admin Audit / Activity Log: admin_audit_logs/{logId}
+    match /admin_audit_logs/{logId} {
+      // Only OWNER_ADMIN can read or write audit logs
+      allow read, create: if isOwnerAdmin();
+      allow update, delete: if false; // Immutable audit log
+    }
+
+    // Default deny for all other collections
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

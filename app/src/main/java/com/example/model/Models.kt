@@ -116,7 +116,7 @@ data class Tool(
     val iconName: String,
     val category: String,
     val badgeText: String? = null,
-    val partNotice: String = "Ready in future update"
+    val partNotice: String? = null
 )
 
 data class RecruitmentRequirement(

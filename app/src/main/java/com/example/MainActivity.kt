@@ -23,24 +23,29 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import androidx.compose.runtime.collectAsState
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.admin.ui.AdminScreen
+import com.example.admin.ui.AdminViewModel
+import com.example.auth.ui.AuthViewModel
+import com.example.auth.ui.LoginScreen
+import com.example.calculator.ui.CalculatorScreen
+import com.example.jobphoto.ui.JobPhotoSignatureScreen
 import com.example.model.JobCategory
 import com.example.navigation.Screen
+import com.example.pdftools.ui.PdfToolsScreen
+import com.example.qr.ui.QrToolsScreen
 import com.example.ui.components.DgBottomNavigation
 import com.example.ui.components.DgHeader
-import com.example.ui.screens.AdminScreen
-import com.example.ui.screens.CalculatorScreen
 import com.example.ui.screens.HomeScreen
-import com.example.ui.screens.JobPhotoSignatureScreen
 import com.example.ui.screens.JobsScreen
-import com.example.ui.screens.PdfToolsScreen
-import com.example.ui.screens.photoeditor.PhotoEditorScreen
 import com.example.ui.screens.ProfileScreen
-import com.example.ui.screens.QrToolsScreen
 import com.example.ui.screens.SearchScreen
 import com.example.ui.screens.SplashScreen
 import com.example.ui.screens.ToolsScreen
-import com.example.ui.screens.UnitConverterScreen
 import com.example.ui.screens.UpdatesScreen
+import com.example.ui.screens.photoeditor.PhotoEditorScreen
+import com.example.unitconverter.ui.UnitConverterScreen
 import com.example.ui.theme.DgTheme
 
 class MainActivity : ComponentActivity() {
@@ -61,6 +66,10 @@ fun DgAppNavigation() {
     val snackbarHostState = remember { SnackbarHostState() }
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentRoute = navBackStackEntry?.destination?.route ?: Screen.Splash.route
+
+    val authViewModel: AuthViewModel = viewModel()
+    val adminViewModel: AdminViewModel = viewModel()
+    val currentUser by authViewModel.currentUser.collectAsState()
 
     // Shared state for deep-linking between Home quick actions and Jobs/Updates
     var activeJobCategory by remember { mutableStateOf<JobCategory?>(null) }
@@ -201,6 +210,10 @@ fun DgAppNavigation() {
             // 6. PROFILE SCREEN
             composable(Screen.Profile.route) {
                 ProfileScreen(
+                    authViewModel = authViewModel,
+                    onNavigateToLogin = {
+                        navController.navigate(Screen.Login.route)
+                    },
                     onNavigateToAdmin = {
                         navController.navigate(Screen.Admin.route)
                     },
@@ -208,11 +221,29 @@ fun DgAppNavigation() {
                 )
             }
 
-            // 7. PROTECTED ADMIN ROUTE PLACEHOLDER (/admin)
+            // 7. LOGIN SCREEN (/login)
+            composable(Screen.Login.route) {
+                LoginScreen(
+                    authViewModel = authViewModel,
+                    onNavigateBack = {
+                        navController.popBackStack()
+                    },
+                    onLoginSuccess = {
+                        navController.popBackStack()
+                    }
+                )
+            }
+
+            // 8. PROTECTED ADMIN ROUTE (/admin)
             composable(Screen.Admin.route) {
                 AdminScreen(
-                    onBack = {
+                    currentUser = currentUser,
+                    adminViewModel = adminViewModel,
+                    onNavigateBack = {
                         navController.popBackStack()
+                    },
+                    onToggleTestAdminRole = { isAdmin ->
+                        authViewModel.toggleOwnerAdminTestRole(isAdmin)
                     }
                 )
             }

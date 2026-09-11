@@ -20,6 +20,7 @@ sealed class Screen(val route: String) {
     object Tools : Screen("tools")
     object Updates : Screen("updates")
     object Profile : Screen("profile")
+    object Login : Screen("login")
     object Admin : Screen("admin")
     object Search : Screen("search")
 

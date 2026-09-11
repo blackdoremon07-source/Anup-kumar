@@ -3,6 +3,7 @@ package com.example.ui.theme
 import androidx.compose.ui.graphics.Color
 
 // DG with Anup Palette - Professional Indian Utility & Career Portal
+val DgNavy = Color(0xFF0A192F)
 val DgNavyDark = Color(0xFF0A192F)
 val DgNavyPrimary = Color(0xFF1E3A8A)
 val DgBlueAccent = Color(0xFF2563EB)
