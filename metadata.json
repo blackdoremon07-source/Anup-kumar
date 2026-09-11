@@ -1,0 +1,6 @@
+{
+  "name": "DG with Anup",
+  "description": "Government Jobs, Results, Admit Cards & Powerful Online Tools",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
